@@ -1,66 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Pr0konverter
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Pr0konverter soll eine einfache Webseite werden, auf der pr0gramm Nutzer Videos für das pr0gramm konvertieren können.
 
-## About Laravel
+Ich werde YouTube DL verwenden, um Videos von X beliebigen Plattformen zu downloaden und ffmpeg, um diese in das
+gewünschte Format zu konvertieren.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Damit das ganze etwas geiler aussieht und man den Fortschritt ordentlich verfolgen kann, werde ich Reverb mit Shadcn
+verwenden.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Features die ich mindestens implementieren möchte.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [ ] Einfacher Download von Videos von X beliebigen Plattformen und diese dann komplett downloadbar machen. (Private
+  Zwecke natürlich)
+- [ ] Nur Sound von Videos downloaden. (Weil Schwester das "braucht")
+- [ ] Download von Ziel-URLs (.mp4 URL, .webm URL, .mp3 URL, .jpg URL, .png URL, .gif URL)
+- [ ] Bulk Download von YouTube Playlists (Sound & Video - Auswählbar)
+- [ ] Konvertieren von Videos in das gewünschte Format.
+    - [ ] MP4 (H264/AAC)
+    - [ ] WebM (VP8/Vorbis/Opus)
+    - [ ] GIF aus Video (Von-bis Zeit)
+    - [ ] MP3
+    - [ ] JPEG Frame aus Video
+    - [ ] PNG Frame aus Video
+- [ ] Video schneiden (Von-bis Zeit)
+- [ ] Untertitel von YouTube übernehmen
+- [ ] Ratio von Bildern und Videos definieren
+- [ ] Megapixel von den Bildern definieren (min. 0,09 Megapixel (z.B. 300×300), max. 20,25 Megapixel (z.B. 4608×4608))
+- [ ] Dateigröße von Bildern und Videos evtl. komprimierbar machen (20MB für Bilder und 200MB für Videos)
+- [ ] FPS von Videos definieren (min. 1, max. 60)
+- [ ] Statistik über die konvertierten Videos und Bilder
+- [ ] Voreinstellungen definierbar machen (Damit ein normaler User einfach nur auf "Konvertieren" klicken muss und
+  fertig)
 
-## Learning Laravel
+## Features die ich gerne implementieren möchte aber nicht muss.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- [ ] System für pr0gramm Nutzer begrenzen (0Auth Login, wenn Gamb das gut findet) um Missbrauch zu verhindern.
+- [ ] FFMPEG Parameter zusammenklicken (Art Pipeline an Dateien die man haben möchte)
+    - Bsp.: Man möchte aus einer Rohdatei eine MP4, AVI und ein GIF von 0:12 bis 0:15 erstellen. (Das ganze dann in
+      einer Queue)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Use Case
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. User kommt auf die Seite und sieht direkt den Konverter.
+2. Frage, was er machen möchte (Video oder Bild konvertieren)
+3. Zieldatei beziehen (URL oder Datei)
+4. Einstellungen definieren (FPS, Megapixel, Dateigröße, Konvertierung)
+5. Konvertieren
+6. Downloaden
+7. Statistik einsehen
+8. Fertig
 
-## Laravel Sponsors
+## Umsetzung
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Alles in einzelne Schritte / Jobs aufteilen, damit man dem User auch den wirklichen Fortschritt mitteilen kann.
+Reverb Channel → Status Mitteilungen
 
-### Premium Partners
+Liste an erlaubten Mimes definieren
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Datei Upload muss Multi-Part sein, sonst Problem mit kack header
 
-## Contributing
+Ich werde Pipeline Pattern verwenden, um den Zyklus abzubilden. So kann man auch einfach weitere Schritte dazu klicken.
+Bspw. Ich möchte ein Video zu 60 FPS konvertieren und zuschneiden.
+Also muss ich den Job zum Zuschneiden zuerst machen und dann das Video auf 60 FPS konvertieren.
+Wie definiere ich, dass der Job X for Y laufen muss?
+Ich bau mir eine Config an verfügbaren Operationen und gebe so die sinnvolle Reihenfolge vor.
+Die verfügbaren Operationen wären aber als einzelne Models viel geiler. So kann man die Commands auch einfach erweitern.
+Jedes Model muss dann dem MediaOperation Interface entsprechen, was die Pipeline dann auch erwartet.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Um einen Überblick über die Dateien am Server zu haben, werde ich jede zu verarbeitende Datei in der DB speichern.
+Die Datei ist dann immer die Zieldatei, an der die Operationen nach und nach durchgeführt werden.
+Der Datei speichere ich noch Daten wie Ursprung (URL oder Upload) und Anonyme IP des Users oder wirklich den Nutzer vom
+pr0gramm zu.
 
-## Code of Conduct
+Die Dateien müssen nach der Verarbeitung sofort gelöscht werden, damit der Server nicht voll läuft.
+Über Listener oder automatische Löschung nach spätestens 24 Stunden, wenn fehlgeschlagen.
+Jeder Upload erstellt aber eine neue File. Also → Löschen wir besser sofort.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Begrenzung pro IP oder User auf eine Datei gleichzeitig.
 
-## Security Vulnerabilities
+Models:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- User
+- File
+- MediaOperation
+- ConversionPreset - Voreinstellung für die Konvertierung (Ein Preset besteht aus mehreren MediaOperations)
+- Conversion - aktueller Status der Konvertierung und das definierte Preset
+- ConversionLog = Log der Konvertierung (Nachvollziehbarkeit für Nutzer)
