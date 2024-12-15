@@ -84,5 +84,6 @@ Models:
 - File
 - MediaOperation
 - ConversionPreset - Voreinstellung für die Konvertierung (Ein Preset besteht aus mehreren MediaOperations)
-- Conversion - aktueller Status der Konvertierung und das definierte Preset
+- Conversion - aktueller Status der Konvertierung und das definierte Preset - Jedes Zielformat ist eine eigene
+  Conversion
 - ConversionLog = Log der Konvertierung (Nachvollziehbarkeit für Nutzer)
