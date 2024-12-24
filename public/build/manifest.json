@@ -1,6 +1,6 @@
 {
-  "_vendor-DGIpqfzb.js": {
-    "file": "assets/vendor-DGIpqfzb.js",
+  "_vendor-BD26YND5.js": {
+    "file": "assets/vendor-BD26YND5.js",
     "name": "vendor"
   },
   "resources/assets/pimmelmannjones.svg": {
@@ -12,20 +12,20 @@
     "src": "resources/assets/pr0verter.png"
   },
   "resources/css/app.css": {
-    "file": "assets/app-CL0fgfCQ.css",
+    "file": "assets/app-0DUZX6fB.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-DJtheE9J.js",
+    "file": "assets/app-BHIjvlmL.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_vendor-DGIpqfzb.js"
+      "_vendor-BD26YND5.js"
     ],
     "css": [
-      "assets/app-CL0fgfCQ.css"
+      "assets/app-0DUZX6fB.css"
     ],
     "assets": [
       "assets/pimmelmannjones-UhIV0Q9Z.svg",
