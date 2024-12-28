@@ -105,8 +105,7 @@ const onSubmit = form.handleSubmit(async (values) => {
   inertiaForm.maxSize = values.maxSize;
   inertiaForm.autoCrop = values.autoCrop;
   inertiaForm.watermark = values.watermark;
-  inertiaForm._token = usePage().props.csrf_token;
-  console.log(inertiaForm._token);
+
   if (!values.file && !values.url) {
     form.setErrors({
       file: 'Bitte wähle eine Datei aus oder gib eine URL ein',

@@ -58,7 +58,6 @@ const updateConversionWithDownloadProgress = (downloadProgressEvent) => {
 
 const updateConversion = (conversion) => {
   allConversions.value = allConversions.value.map((c) => {
-    console.log(c);
     if (c.id === conversion.id) {
       c = { ...c, ...conversion };
     }
@@ -73,11 +72,9 @@ onMounted(() => {
       updateConversionWithProgress(event);
     })
     .listen('DownloadProgress', (event) => {
-      console.log(event);
       updateConversionWithDownloadProgress(event);
     })
     .listen('ConversionUpdated', (event) => {
-      console.log(event);
       updateConversion(event.conversion);
     });
 });
