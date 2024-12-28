@@ -115,6 +115,8 @@ class ConversionJob implements ShouldBeUnique, ShouldQueue
 
     private function checkIfConversionIsActuallyNeeded(Conversion $conversion): bool
     {
+        return true;
+
         $hasAdditionalOperations = false;
         $hasCorrectExtension = false;
         $hasCorrectSize = false;
@@ -158,6 +160,14 @@ class ConversionJob implements ShouldBeUnique, ShouldQueue
             $hasAdditionalOperations = true;
         }
 
-        return ! $hasCorrectExtension || ! $hasCorrectSize || $hasAdditionalOperations;
+        if ($hasAdditionalOperations) {
+            return true;
+        }
+
+        if ($hasCorrectExtension && $hasCorrectSize) {
+            return false;
+        }
+
+        return false;
     }
 }
