@@ -30,9 +30,10 @@ Route::middleware([VerifyCsrfToken::class])
 Route::get('conversions/download/{conversion}', [ConversionController::class, 'download'])
     ->name('conversions.download');
 
-Route::middleware(['guest'])->group(function () {
-    Route::get('login', [AuthController::class, 'index'])
-        ->name('login');
+Route::get('login', [AuthController::class, 'index'])
+    ->name('login');
 
-    Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-});
+Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+
+Route::post('logout', [AuthController::class, 'logout'])
+    ->name('auth.logout');

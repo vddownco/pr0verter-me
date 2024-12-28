@@ -33,6 +33,11 @@ class MaxSizeOperation implements MediaFormatOperation
         $currentSizeInBytes = Storage::disk($this->conversion->file->disk)->size($this->conversion->file->filename);
         $maxSizeInBytes = $maxSizeInMB * 1024 * 1024;
         $duration = $this->actualDuration();
+
+        if ($duration === 0) {
+            return $format;
+        }
+
         $audioBitrate = $this->conversion->audio ? $this->currentAudioBitrate * $this->conversion->audio_quality : 0;
         $audioBitrateInKiloBits = $audioBitrate / 1024;
         $maxSizeInBits = $maxSizeInMB * 1024 * 1024 * 8;

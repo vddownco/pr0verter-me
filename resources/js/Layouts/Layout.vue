@@ -9,7 +9,7 @@ import {
 import { Bars3Icon } from '@heroicons/vue/24/solid/index.js';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'vue-sonner';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link, router, usePage } from '@inertiajs/vue3';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 import pr0verterLogo from '../../assets/pr0verter.png';
 import { Button } from '@/components/ui/button/index.js';
@@ -46,6 +46,11 @@ onBeforeUnmount(() => {
   // eslint-disable-next-line no-undef
   Echo.leaveChannel(`session.${sessionId}`);
 });
+
+const logout = async () => {
+  // eslint-disable-next-line no-undef
+  await router.post(route('auth.logout'));
+};
 </script>
 
 <template>
@@ -94,9 +99,19 @@ onBeforeUnmount(() => {
           </NavigationMenuItem>
           <NavigationMenuItem class="block w-full">
             <NavigationMenuLink
+              target="_blank"
               href="https://pr0gramm.com/inbox/messages/PimmelmannJones"
               :class="[navigationMenuTriggerStyle(), '!w-full !justify-start']">
               Kontakt
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem
+            v-if="$page.props.user !== null"
+            class="block w-full">
+            <NavigationMenuLink
+              @click="logout"
+              :class="[navigationMenuTriggerStyle(), '!w-full !justify-start']">
+              Logout
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -132,9 +147,19 @@ onBeforeUnmount(() => {
           </NavigationMenuItem>
           <NavigationMenuItem class="block w-full">
             <NavigationMenuLink
+              target="_blank"
               href="https://pr0gramm.com/inbox/messages/PimmelmannJones"
               :class="[navigationMenuTriggerStyle(), '!w-full !justify-start']">
               Kontakt
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem
+            v-if="$page.props.user !== null"
+            class="block w-full">
+            <NavigationMenuLink
+              :class="[navigationMenuTriggerStyle(), '!w-full !justify-start']"
+              @click="logout">
+              Logout
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>

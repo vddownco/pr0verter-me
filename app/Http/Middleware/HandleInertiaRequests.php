@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Conversion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -38,6 +39,9 @@ class HandleInertiaRequests extends Middleware
     {
 
         return array_merge(parent::share($request), [
+            'user' => fn () => Auth::check()
+                ? Auth::user()->only('id', 'name', 'email')
+                : null,
             'session' => [
                 'id' => $request->session()->getId(),
             ],

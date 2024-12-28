@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthLoginRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -16,17 +18,25 @@ class AuthController extends Controller
 
     public function login(AuthLoginRequest $request): RedirectResponse
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $credentials = $request->validated();
 
-        if (! auth()->attempt($request->only('email', 'password'))) {
-            return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ]);
+        if (Auth::attempt($credentials, true)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('home'));
         }
 
-        return redirect()->route('home');
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
+    }
+
+    public function logout(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        return redirect()->route('login');
     }
 }
