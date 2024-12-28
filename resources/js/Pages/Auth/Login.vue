@@ -11,7 +11,7 @@ const form = useForm({
 
 const onSubmit = () => {
   // eslint-disable-next-line no-undef
-  form.post(route('auth.login'));
+  form.submit('post', route('auth.login'));
 };
 </script>
 
@@ -35,6 +35,7 @@ const onSubmit = () => {
         <Input
           id="email"
           v-model="form.email"
+          autocomplete="username"
           type="email"
           class="mt-1"
           required />
@@ -45,13 +46,14 @@ const onSubmit = () => {
           id="password"
           v-model="form.password"
           type="password"
+          autocomplete="current-password"
           class="mt-1"
           required />
       </Label>
       <span v-if="form.errors.email" class="text-red-600">{{
         form.errors.email
       }}</span>
-      <Button type="submit" class="mt-4 w-full"> Login</Button>
+      <Button type="submit" class="mt-4 w-full">Login</Button>
     </fieldset>
   </form>
 </template>

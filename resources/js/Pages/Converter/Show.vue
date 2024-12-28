@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/number-field';
 import { CloudUpload, RotateCcw, Trash2 } from 'lucide-vue-next';
 import { useForm } from 'vee-validate';
-import { Head, useForm as useInertiaForm } from '@inertiajs/vue3';
+import { Head, useForm as useInertiaForm, usePage } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 
@@ -91,7 +91,6 @@ const inertiaForm = useInertiaForm({
 });
 
 const onSubmit = form.handleSubmit(async (values) => {
-  console.log(values);
   if (inertiaForm.processing) {
     return;
   }
@@ -106,7 +105,8 @@ const onSubmit = form.handleSubmit(async (values) => {
   inertiaForm.maxSize = values.maxSize;
   inertiaForm.autoCrop = values.autoCrop;
   inertiaForm.watermark = values.watermark;
-
+  inertiaForm._token = usePage().props.csrf_token;
+  console.log(inertiaForm._token);
   if (!values.file && !values.url) {
     form.setErrors({
       file: 'Bitte wähle eine Datei aus oder gib eine URL ein',
@@ -121,7 +121,6 @@ const onSubmit = form.handleSubmit(async (values) => {
 
   let submitPromise = () =>
     new Promise((resolve, reject) => {
-      console.log(inertiaForm);
       // eslint-disable-next-line no-undef
       inertiaForm.post(route('converter.start'), {
         preserverState: true,

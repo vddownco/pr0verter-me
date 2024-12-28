@@ -54,6 +54,7 @@ const logout = async () => {
 </script>
 
 <template>
+  {{ $page.props }}
   <header class="mx-auto max-w-4xl px-4">
     <NavigationMenu
       class="flex max-w-4xl gap-4 py-4 md:items-center md:justify-between">
@@ -107,10 +108,10 @@ const logout = async () => {
           </NavigationMenuItem>
           <NavigationMenuItem
             v-if="$page.props.user !== null"
-            class="block w-full">
+            class="block w-full cursor-pointer">
             <NavigationMenuLink
-              @click="logout"
-              :class="[navigationMenuTriggerStyle(), '!w-full !justify-start']">
+              :class="[navigationMenuTriggerStyle(), '!w-full !justify-start']"
+              @click="logout">
               Logout
             </NavigationMenuLink>
           </NavigationMenuItem>

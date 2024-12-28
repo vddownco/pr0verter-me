@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleInertiaRequests::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'logout',
+        ]);
     })
     ->withSchedule(function (Schedule $schedule) {
         $schedule->command('app:cleanup')->hourly();
