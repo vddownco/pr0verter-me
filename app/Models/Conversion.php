@@ -224,7 +224,7 @@ class Conversion extends Model
 
             $stat->update($updateValues);
         } else {
-            Statistic::create(array_merge($updateValues, ['conversion_id' => $this->id]));
+            Statistic::create(array_merge($updateValues, ['conversion_id' => $this->id ?? null]));
         }
     }
 }
