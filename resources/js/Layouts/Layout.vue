@@ -54,7 +54,6 @@ const logout = async () => {
 </script>
 
 <template>
-  {{ $page.props }}
   <header class="mx-auto max-w-4xl px-4">
     <NavigationMenu
       class="flex max-w-4xl gap-4 py-4 md:items-center md:justify-between">
