@@ -62,6 +62,11 @@ class StatController extends Controller
             Log::error('Could not group urls by domain', ['exception' => $th]);
         }
 
+        $stats['today_conversions'] = [
+            'title' => 'Heutige Konvertierungen',
+            'value' => Statistic::whereDate('created_at', now())->count(),
+        ];
+
         $stats['favorite_url'] = [
             'title' => 'Beliebteste Download-URL',
             'value' => $urls ? $urls->keys()->first() : 'Keine URLs vorhanden',
