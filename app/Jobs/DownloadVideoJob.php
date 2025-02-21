@@ -57,6 +57,7 @@ class DownloadVideoJob implements ShouldBeUnique, ShouldQueue
                     ->noPlaylist()
                     ->ffmpegLocation(config('laravel-ffmpeg.ffmpeg.binaries'))
                     ->cookies(config('converter.cookies.file'))
+                    ->format('bestvideo+bestaudio/best')
                     ->cleanupMetadata(true)
                     ->maxDownloads(1)
                     ->url($conversion->url)
