@@ -46,6 +46,10 @@ class ConversionJob implements ShouldBeUnique, ShouldQueue
         $conversionNeeded = $this->checkIfConversionIsActuallyNeeded($conversion);
 
         if ($conversionNeeded === false) {
+            $conversion->update([
+                'status' => 'finished',
+                'downloadable' => true,
+            ]);
             return;
         }
 
