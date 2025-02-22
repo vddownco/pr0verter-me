@@ -156,6 +156,6 @@ class ConversionJob implements ShouldBeUnique, ShouldQueue
             return false;
         }
 
-        return false;
+        return true;
     }
 }
