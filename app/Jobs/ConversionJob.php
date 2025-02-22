@@ -125,20 +125,11 @@ class ConversionJob implements ShouldBeUnique, ShouldQueue
         $extension = pathinfo($file, PATHINFO_EXTENSION);
 
         if ($extension === 'mp4' || $extension === 'webm') {
-            $conversion->update([
-                'status' => 'finished',
-                'downloadable' => true,
-            ]);
             Log::info('Datei ist bereits mp4 oder webm');
             $hasCorrectExtension = true;
         }
 
         if ($size <= $conversion->max_size * 1024 * 1024) {
-            $conversion->update([
-                'status' => 'finished',
-                'downloadable' => true,
-            ]);
-
             $hasCorrectSize = true;
         }
 
@@ -150,11 +141,6 @@ class ConversionJob implements ShouldBeUnique, ShouldQueue
             $conversion->trim_start !== null &&
             $conversion->trim_end !== null
         ) {
-            $conversion->update([
-                'status' => 'finished',
-                'downloadable' => true,
-            ]);
-
             $hasAdditionalOperations = true;
         }
 
