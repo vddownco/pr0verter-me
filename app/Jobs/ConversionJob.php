@@ -50,6 +50,7 @@ class ConversionJob implements ShouldBeUnique, ShouldQueue
                 'status' => 'finished',
                 'downloadable' => true,
             ]);
+
             return;
         }
 
@@ -119,43 +120,25 @@ class ConversionJob implements ShouldBeUnique, ShouldQueue
 
     private function checkIfConversionIsActuallyNeeded(Conversion $conversion): bool
     {
-        $hasAdditionalOperations = false;
-        $hasCorrectExtension = false;
-        $hasCorrectSize = false;
+        $file = $conversion->file;
+        $storage = Storage::disk($file->disk);
+        $extension = pathinfo($storage->path($file->filename), PATHINFO_EXTENSION);
 
-        $file = Storage::disk($conversion->file->disk)->path($conversion->file->filename);
-        $size = Storage::disk($conversion->file->disk)->size($conversion->file->filename);
+        $hasCompatibleFormat = in_array($extension, ['mp4', 'webm'], true);
+        $isWithinSizeLimit = $storage->size($file->filename) <= $conversion->max_size * 1024 * 1024;
 
-        $extension = pathinfo($file, PATHINFO_EXTENSION);
+        $hasCustomOperations =
+            $conversion->audio_quality !== 1 ||
+            $conversion->audio === false ||
+            $conversion->watermark === true ||
+            $conversion->auto_crop === true ||
+            $conversion->trim_start !== null ||
+            $conversion->trim_end !== null;
 
-        if ($extension === 'mp4' || $extension === 'webm') {
-            Log::info('Datei ist bereits mp4 oder webm');
-            $hasCorrectExtension = true;
-        }
-
-        if ($size <= $conversion->max_size * 1024 * 1024) {
-            $hasCorrectSize = true;
-        }
-
-        if (
-            $conversion->audio_quality !== 1 &&
-            $conversion->audio === false &&
-            $conversion->watermark === true &&
-            $conversion->auto_crop === true &&
-            $conversion->trim_start !== null &&
-            $conversion->trim_end !== null
-        ) {
-            $hasAdditionalOperations = true;
-        }
-
-        if ($hasAdditionalOperations) {
+        if ($hasCustomOperations) {
             return true;
         }
 
-        if ($hasCorrectExtension && $hasCorrectSize) {
-            return false;
-        }
-
-        return true;
+        return ! ($hasCompatibleFormat && $isWithinSizeLimit);
     }
 }
