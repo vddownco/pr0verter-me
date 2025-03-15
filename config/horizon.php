@@ -222,11 +222,6 @@ return [
                 'balanceMaxShift' => 1,
                 'balanceCooldown' => 3,
             ],
-            'downloader' => [
-                'maxProcesses' => 2,
-                'balanceMaxShift' => 1,
-                'balanceCooldown' => 3,
-            ],
         ],
 
         'local' => [
@@ -234,9 +229,6 @@ return [
                 'maxProcesses' => 5,
             ],
             'converter' => [
-                'maxProcesses' => 3,
-            ],
-            'downloader' => [
                 'maxProcesses' => 3,
             ],
         ],
