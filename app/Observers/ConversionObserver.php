@@ -27,7 +27,7 @@ class ConversionObserver
 
         if ($conversion->status === ConversionStatus::PENDING && $conversion->url !== null && $conversion->file_id === null) {
             // DownloadVideoJob::dispatchSync($conversion->id);
-            DownloadVideoJob::dispatch($conversion->id)->onQueue('downloader');
+            DownloadVideoJob::dispatch($conversion->id);
         }
     }
 
