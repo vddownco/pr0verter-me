@@ -26,9 +26,7 @@ class ConversionObserver
         $conversion->trackStatistic();
 
         if ($conversion->status === ConversionStatus::PENDING && $conversion->url !== null && $conversion->file_id === null) {
-            // DownloadVideoJob::dispatchSync($conversion->id);
-            \Log::info("Download");
-            DownloadVideoJob::dispatchSync($conversion->id);
+            DownloadVideoJob::dispatch($conversion->id);
         }
     }
 
