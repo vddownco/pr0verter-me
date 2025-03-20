@@ -66,8 +66,8 @@ class ConversionSettings
         $this->audio = $settings['audio'] ?? true;
         $this->keepResolution = $settings['keep_resolution'] ?? false;
         $this->audioQuality = $settings['audio_quality'] ?? 1.0;
-        $this->trimStart = $settings['trim_start'] ?? null;
-        $this->trimEnd = $settings['trim_end'] ?? null;
+        $this->trimStart = $this->convertToSeconds($settings['trim_start'] ?? null);
+        $this->trimEnd = $this->convertToSeconds($settings['trim_end'] ?? null);
         $this->maxSize = $settings['max_size'] ?? null;
         $this->autoCrop = $settings['auto_crop'] ?? false;
         $this->watermark = $settings['watermark'] ?? false;
@@ -94,6 +94,56 @@ class ConversionSettings
             'interpolation' => $this->interpolation,
             'segments' => $this->segments,
         ];
+    }
+
+    private function convertToSeconds(?string $time): ?int
+    {
+        if ($time === null || trim($time) === '') {
+            return null;
+        }
+
+        $time = preg_replace('/\s+/', '', $time);
+        $time = preg_replace('/[.,\-]/', ':', $time);
+
+        if (! str_contains($time, ':')) {
+            return filter_var($time, FILTER_VALIDATE_INT) !== false ? (int) $time : null;
+        }
+
+        $parts = explode(':', $time);
+
+        $parts = array_filter($parts, static fn ($part) => $part !== '');
+
+        foreach ($parts as $part) {
+            if (! is_numeric($part)) {
+                return null;
+            }
+        }
+
+        $parts = array_values(array_map('intval', $parts));
+
+        return match (count($parts)) {
+            1 => $parts[0],
+
+            2 => (
+                $parts[0] >= 0 &&
+                $parts[1] >= 0 &&
+                $parts[1] < 60
+            )
+                ? $parts[0] * 60 + $parts[1]
+                : null,
+
+            3 => (
+                $parts[0] >= 0 &&
+                $parts[1] >= 0 &&
+                $parts[2] >= 0 &&
+                $parts[1] < 60 &&
+                $parts[2] < 60
+            )
+                ? $parts[0] * 3600 + $parts[1] * 60 + $parts[2]
+                : null,
+
+            default => null
+        };
     }
 
     private function convertKeysToSnakeCase(array $array): array
