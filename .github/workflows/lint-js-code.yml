@@ -1,4 +1,4 @@
-name: 'JavaScript Code Linting'
+name: 'Lint JavaScript Code'
 
 on:
   push:
@@ -31,13 +31,14 @@ jobs:
           php_version: '8.2'
           args: --ignore-platform-reqs --optimize-autoloader --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 21
+          node-version: "latest"
+          cache: 'npm'
+          cache-dependency-path: "**/package-lock.json"
 
-      - name: Install Dependencies
-        run: npm install
+      - name: Install dependencies
+        run: npm ci
 
       - name: ESLint
         run: npm run lint
