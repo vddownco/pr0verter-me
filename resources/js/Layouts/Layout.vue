@@ -14,10 +14,20 @@ import { onBeforeUnmount, onMounted, ref } from 'vue';
 import pr0verterLogo from '../../assets/pr0verter.png';
 import { Button } from '@/components/ui/button/index.js';
 import { GithubIcon } from 'lucide-vue-next';
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from '@/components/ui/alert/index.js';
 
 const props = usePage().props;
 const sessionId = props.session.id;
 const version = ref(props.github_version || '');
+const alert = ref({
+  title: 'Probleme mit YouTube-Videos',
+  description:
+    'Die letzten Tage gabe es Probleme beim Download von YouTube-Videos. Das Problem sollte nun behoben sein.',
+});
 
 onMounted(() => {
   // eslint-disable-next-line no-undef
@@ -195,6 +205,12 @@ const logout = async () => {
     </NavigationMenu>
   </header>
   <main class="mx-auto max-w-4xl px-4 py-6">
+    <Alert v-if="alert.title" class="mb-8">
+      <AlertTitle>{{ alert.title }}</AlertTitle>
+      <AlertDescription>
+        {{ alert.description }}
+      </AlertDescription>
+    </Alert>
     <slot />
     <div class="group fixed bottom-5 right-5 z-20">
       <h4
