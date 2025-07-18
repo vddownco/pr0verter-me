@@ -25,7 +25,7 @@ const sessionId = props.session.id;
 const version = ref(props.github_version || '');
 const alert = ref({
   title: 'Infrastruktur Upgrade',
-  description: 'Innerhalb der nächsten Stunde werden ich die Infrastruktur upgraden. Der pr0verter und der pr0texter werden für einige Zeit nicht erreichbar sein.',
+  description: 'Innerhalb der nächsten Tage werden ich die Infrastruktur upgraden. Der pr0verter und der pr0texter werden für einige Zeit möglicherweise nicht nicht erreichbar sein.',
 });
 
 onMounted(() => {
